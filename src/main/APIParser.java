@@ -1,27 +1,28 @@
 package main;
 
+import exceptions.emptyListException;
+import exceptions.invalidInputException;
 import javafx.util.Pair;
-import org.xml.sax.SAXException;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
 
-public class Data {
+public class APIParser {
 
     private final String API_URL_BASE = "https://rxnav.nlm.nih.gov/REST/interaction/list?rxcuis=";
     private Set<Pair<String, String>> interactions;
     private Set<String> drugs;
 
 
-    public Data(Set<String> stringSet) throws IOException, invalidInputException {
+    public APIParser(Set<String> stringSet) throws IOException, invalidInputException, emptyListException {
         interactions = new HashSet<>();
         drugs = stringSet;
-            readAPI();
+        readAPI();
     }
 
-    public void readAPI() throws IOException, invalidInputException {
+    public void readAPI() throws IOException, invalidInputException, emptyListException {
 
         String formattedDrugCodes = inputListMaker();
 
@@ -63,7 +64,8 @@ public class Data {
         return splitResult[0];
     }
 
-    private String inputListMaker() throws IOException, invalidInputException {
+    private String inputListMaker() throws IOException, invalidInputException, emptyListException {
+        if (drugs.isEmpty() || drugs.contains("")) throw new emptyListException();
         String returnS = "";
         for(String s : drugs) {
             returnS += getDrugCode(s);

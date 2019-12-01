@@ -6,13 +6,13 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.MedTreeGraph">
    <children>
-      <TextField fx:id="medNameTxt" promptText="enter a valid drug name here" />
+      <TextField fx:id="medNameTxt" promptText="enter a specific valid drug name here" />
       <Button mnemonicParsing="false" onAction="#addMedList" prefWidth="Infinity" text="Add Medication" />
       <Button mnemonicParsing="false" onAction="#draw" prefWidth="Infinity" text="Draw Graph">
          <opaqueInsets>
             <Insets top="10.0" />
          </opaqueInsets></Button>
-      <Label fx:id="wrngLbl" prefHeight="18.0" prefWidth="Infinity" textAlignment="CENTER" textFill="RED">
+      <Label fx:id="warningLb" prefHeight="18.0" prefWidth="Infinity" textAlignment="CENTER" textFill="RED" alignment="CENTER">
          <VBox.margin>
             <Insets top="10.0" />
          </VBox.margin></Label>

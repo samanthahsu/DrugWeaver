@@ -1,9 +1,5 @@
 package main;
 
-/**
- *
- * @author terry
- */
 public class Dataset {
     private String name;
     private int xcord;

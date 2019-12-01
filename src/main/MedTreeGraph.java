@@ -1,5 +1,7 @@
 package main;
 
+import exceptions.emptyListException;
+import exceptions.invalidInputException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -7,6 +9,7 @@ import javafx.util.Pair;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -16,6 +19,12 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 
+import static javafx.scene.paint.Color.GREEN;
+import static javafx.scene.paint.Color.RED;
+
+/**
+ * controller for main.fxml
+ * */
 public class MedTreeGraph extends JPanel {
     Vector<String> names = new Vector<String>();
     Vector<Pair> pairs = new Vector<Pair>();
@@ -23,7 +32,8 @@ public class MedTreeGraph extends JPanel {
     @FXML
     TextField medNameTxt;
     @FXML
-    Label wrngLbl;
+    Label warningLb;
+    JFrame jFrame;
 
     @Override
     public void paintComponent(Graphics g) {
@@ -44,8 +54,8 @@ public class MedTreeGraph extends JPanel {
         }
         String name;
         int index;
-        for (int i = 0; i < pairs.size(); i++) {
-            name = pairs.get(i).getKey().toString().toUpperCase();
+        for (Pair pair : pairs) {
+            name = pair.getKey().toString().toUpperCase();
             index = 0;
             for (int j = 0; j < names.size(); j++) {
                 if (data.get(j).getName().equals(name)) {
@@ -55,7 +65,7 @@ public class MedTreeGraph extends JPanel {
             }
             x = data.get(index).getX();
             y = data.get(index).getY();
-            name = pairs.get(i).getValue().toString().toUpperCase();
+            name = pair.getValue().toString().toUpperCase();
             index = 0;
             for (int j = 0; j < names.size(); j++) {
                 if (data.get(j).getName().equals(name)) {
@@ -66,6 +76,7 @@ public class MedTreeGraph extends JPanel {
             g.drawLine(x, y, data.get(index).getX(), data.get(index).getY());
         }
     }
+
     public void readFile(String filePath) throws IOException {
         File file = new File(filePath);
         BufferedReader br = new BufferedReader(new FileReader(file));
@@ -76,26 +87,34 @@ public class MedTreeGraph extends JPanel {
             names.addAll(Arrays.asList(words));
         }
     }
-    public void draw() throws IOException {
-        Set<String> nameSet = new HashSet<>();
-        nameSet.addAll(names);
-        Data d = null;
-        try {
-            d = new Data(nameSet);
-        } catch (invalidInputException e) {
-            wrngLbl.setText("Did not recognize drug name, please try again.");
-        }
-        assert d != null;
-        pairs.addAll(d.getInteractions());
 
-        for(Pair p : d.getInteractions()) {
-            System.out.println(p.getKey() + " " + p.getValue());
+    // on action for button
+    public void draw() throws IOException {
+        warningLb.setTextFill(RED);
+        Set<String> nameSet = new HashSet<>(names);
+        APIParser d;
+        try {
+            d = new APIParser(nameSet);
+            pairs.addAll(d.getInteractions());
+
+            for(Pair p : d.getInteractions()) {
+                System.out.println(p.getKey() + " " + p.getValue());
+            }
+
+            drawGraph();
+            warningLb.setText("Graph drawn successfully!");
+            warningLb.setTextFill(GREEN);
+
+        } catch (invalidInputException e) {
+            warningLb.setText("Did not recognize drug name, please try again.");
+            clearData();
+        } catch (emptyListException e) {
+            warningLb.setText("Please enter at least one drug.");
+            clearData();
         }
-// todo close previous jframe window
-//        todo clear all previously entered data
-        drawGraph();
     }
 
+    // on action for button
     public void addMedList() {
         names.add(medNameTxt.getText().toUpperCase());
         medNameTxt.clear();
@@ -103,10 +122,19 @@ public class MedTreeGraph extends JPanel {
     }
 
     public void drawGraph() {
-        JFrame jFrame = new JFrame();
+        if (jFrame != null) jFrame.dispose();
+
+        jFrame = new JFrame();
         jFrame.add(new MedTreeGraph());
         jFrame.setSize(500, 500);
         jFrame.setVisible(true);
         paintComponent(jFrame.getGraphics());
+
+        clearData();
+    }
+
+    private void clearData() {
+        names.clear();
+        pairs.clear();
     }
 }
