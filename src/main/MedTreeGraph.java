@@ -35,8 +35,10 @@ public class MedTreeGraph extends JPanel {
     Label warningLb;
     JFrame jFrame;
 
+//    todo fix bug where repainting the jFrame causes transparent window
     @Override
     public void paintComponent(Graphics g) {
+        super.paintComponent(g);
 
         int originX = 250;
         int originY = 250;
@@ -127,6 +129,7 @@ public class MedTreeGraph extends JPanel {
         jFrame = new JFrame();
         jFrame.add(new MedTreeGraph());
         jFrame.setSize(500, 500);
+        jFrame.setResizable(false);
         jFrame.setVisible(true);
         paintComponent(jFrame.getGraphics());
 

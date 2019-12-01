@@ -12,7 +12,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
         primaryStage.setTitle("DrugWeaver");
-        primaryStage.setScene(new Scene(root, 400, 400));
+        primaryStage.setScene(new Scene(root, 400, 300));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 

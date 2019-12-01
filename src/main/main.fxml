@@ -3,18 +3,40 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.MedTreeGraph">
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.MedTreeGraph">
    <children>
-      <TextField fx:id="medNameTxt" promptText="enter a specific valid drug name here" />
+      <Label alignment="CENTER" text="DrugWeaver" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold Italic" size="23.0" />
+         </font>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </Label>
+      <TextArea prefHeight="70.0" editable="false" text="Visualize the negative interactions of the drugs you are planning to take. Graph data is drawn from [Drug Interaction Database](https://rxnav.nlm.nih.gov/InteractionAPIs.html#)." wrapText="true" />
+      <TextArea prefHeight="50.0" text="Please do not take this graph as definitive medical advice and seek consult from professionals." wrapText="true" editable="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </TextArea>
+      <TextField fx:id="medNameTxt" promptText="Enter a specific valid drug name here (eg. Acetaminophen)">
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </TextField>
       <Button mnemonicParsing="false" onAction="#addMedList" prefWidth="Infinity" text="Add Medication" />
       <Button mnemonicParsing="false" onAction="#draw" prefWidth="Infinity" text="Draw Graph">
          <opaqueInsets>
             <Insets top="10.0" />
-         </opaqueInsets></Button>
-      <Label fx:id="warningLb" prefHeight="18.0" prefWidth="Infinity" textAlignment="CENTER" textFill="RED" alignment="CENTER">
+         </opaqueInsets>
+      </Button>
+      <Label fx:id="warningLb" alignment="CENTER" prefHeight="18.0" prefWidth="Infinity" textAlignment="CENTER" textFill="RED">
          <VBox.margin>
             <Insets top="10.0" />
-         </VBox.margin></Label>
+         </VBox.margin>
+      </Label>
    </children>
 </VBox>
