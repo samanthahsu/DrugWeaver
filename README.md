@@ -4,7 +4,7 @@
 Initial authors: Samantha Hsu, Jason Han, Terry Lin and Almas Khan
 This is the UBC local hack day project done on Nov.30/19.
 
-Further improved on by Samantha Hsu.
+Further improvements made by Samantha Hsu. Original project can be found at: https://github.com/samanthahsu/Graph
 
 ### Description:
 
