@@ -33,13 +33,13 @@ public class MedTreeGraph extends JPanel {
     TextField medNameTxt;
     @FXML
     Label warningLb;
-    JFrame jFrame;
 
-//    todo fix bug where repainting the jFrame causes transparent window
+    JFrame jFrame = new JFrame();
+    MedTreeGraph medTree;
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         int originX = 250;
         int originY = 250;
         Vector<Dataset> data = new Vector<Dataset>();
@@ -117,6 +117,9 @@ public class MedTreeGraph extends JPanel {
     }
 
     // on action for button
+//    todo make persistant list of meds entered
+//    todo allow user to pick and choose which to delete from already entered
+//    todo button to clear all entered meds from the list
     public void addMedList() {
         names.add(medNameTxt.getText().toUpperCase());
         medNameTxt.clear();
@@ -124,10 +127,10 @@ public class MedTreeGraph extends JPanel {
     }
 
     public void drawGraph() {
-        if (jFrame != null) jFrame.dispose();
-
-        jFrame = new JFrame();
-        jFrame.add(new MedTreeGraph());
+//        if (jFrame == null) jFrame = new JFrame();
+        if (medTree != null) jFrame.remove(medTree);
+        medTree = new MedTreeGraph();
+        jFrame.add(medTree);
         jFrame.setSize(500, 500);
         jFrame.setResizable(false);
         jFrame.setVisible(true);
